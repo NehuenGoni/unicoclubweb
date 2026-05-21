@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* ─── Brand tokens ───────────────────────────────────────────
+   UnicoClub Padel official brand palette.
+   #071230  – dark navy (primary/base background)
+   #000000  – pure black (deepest surfaces)
+   #D9C4A5  – warm beige/sand (warm accent, text on dark)
+   #FFFFFF  – pure white (primary text, highlights)
+   #A6D8FD  – sky blue (cool accent, gradients)
+──────────────────────────────────────────────────────────── */
+:root {
+  /* Palette */
+  --color-primary:      #071230;
+  --color-black:        #000000;
+  --color-accent-warm:  #D9C4A5;
+  --color-white:        #FFFFFF;
+  --color-accent-cool:  #A6D8FD;
+
+  /* Semantic aliases (consumed by all components) */
+  --accent:       #D9C4A5;   /* warm beige – primary CTA / highlight */
+  --accent-light: #e8d8be;   /* lighter warm beige */
+  --accent-dark:  #A6D8FD;   /* sky blue – gradient accent / dark variant */
+
+  --bg-base:      #071230;   /* dark navy – page background */
+  --bg-card:      #050e24;   /* slightly deeper navy – card surfaces */
+  --bg-card-alt:  #030b1c;   /* deepest navy – nested card surfaces */
+
+  --text-primary:   #FFFFFF;   /* white – headings and body on dark bg */
+  --text-secondary: #D9C4A5;   /* warm beige – secondary text */
+  --text-muted:     #A6D8FD;   /* sky blue – muted / placeholder text */
+
+  --border:         rgba(166, 216, 253, 0.15);   /* cool-blue border at low opacity */
+}
+
+@theme inline {
+  --color-accent:       var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dark:  var(--accent-dark);
+  --color-bg-base:      var(--bg-base);
+  --color-bg-card:      var(--bg-card);
+  --color-bg-card-alt:  var(--bg-card-alt);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted:   var(--text-muted);
+  --color-border:       var(--border);
+  --font-sans: var(--font-lexend-giga);
+}
+
+html {
+  /* Lenis maneja el smooth scroll desde SmoothScroll.tsx. Dejar `smooth` aquí
+     genera "saltos dobles" con Lenis. Para usuarios con `prefers-reduced-motion`
+     Lenis no se monta y el scroll nativo sigue siendo `auto`. */
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-lexend-giga), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
