@@ -8,12 +8,14 @@
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/StaggerGroup";
+import { SOCIALS } from "@/lib/siteData";
 
 type Feature = {
   icon: React.ReactNode;
   title: string;
   description: string;
   href?: string;
+  external?: boolean;
 };
 
 const features: Feature[] = [
@@ -25,6 +27,7 @@ const features: Feature[] = [
     ),
     title: "Book 24/7",
     description: "Reserve your court online at any time, from any device.",
+    href: "/book",
   },
   {
     icon: (
@@ -54,6 +57,8 @@ const features: Feature[] = [
     ),
     title: "Active community",
     description: "Join our player community and find your perfect match partners.",
+    href: SOCIALS.instagram.url,
+    external: true,
   },
 ];
 
@@ -77,7 +82,7 @@ export default function Features() {
           stagger={0.08}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          {features.map(({ icon, title, description, href }) => {
+          {features.map(({ icon, title, description, href, external }) => {
             const baseClass =
               "flex flex-col gap-4 p-6 rounded-xl border border-[var(--border)] bg-[var(--bg-card-alt)] transition-colors group h-full";
             const inner = (
@@ -97,6 +102,7 @@ export default function Features() {
                 <StaggerItem key={title} className="h-full">
                   <Link
                     href={href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className={`${baseClass} cursor-pointer hover:border-[var(--accent)]/60 hover:bg-[var(--bg-card)]`}
                   >
                     {inner}

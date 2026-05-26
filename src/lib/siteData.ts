@@ -11,7 +11,7 @@ export const ADDRESS = {
   postalCode: "33331",
   country: "US",
   line1: "2955 West Corporate Lakes Boulevard",
-  line2: "Weston, FL 33331",
+  line2: "2955 West Corporate Lakes Boulevard, Weston, FL, 33331",
   embedUrl:
     "https://www.google.com/maps?q=2955+West+Corporate+Lakes+Boulevard,+Weston,+FL+33331&output=embed",
   shareUrl:

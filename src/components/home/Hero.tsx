@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "motion/react";
@@ -10,6 +10,9 @@ import { useParallax } from "@/components/motion/useParallax";
 
 // OPENING_DATE: June 1 2026 — update if client changes the date
 const OPENING_DATE = new Date("2026-06-01T00:00:00");
+
+// Flip to true once the client confirms the real opening date.
+const SHOW_COUNTDOWN = false;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -25,11 +28,7 @@ const itemVariants: Variants = {
 
 export default function Hero() {
   const { ref, y } = useParallax(60);
-  const [isBeforeOpening, setIsBeforeOpening] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    setIsBeforeOpening(OPENING_DATE.getTime() > Date.now());
-  }, []);
+  const [isBeforeOpening] = useState(() => OPENING_DATE.getTime() > Date.now());
 
   return (
     <section
@@ -45,7 +44,7 @@ export default function Hero() {
         priority
         quality={85}
         sizes="100vw"
-        className="absolute inset-0 object-cover opacity-60"
+        className="absolute inset-0 object-cover object-center opacity-60"
       />
 
       <HeroBlobs />
@@ -102,16 +101,9 @@ export default function Hero() {
             height={1080}
             priority
             quality={90}
-            className="w-full max-w-xs sm:max-w-sm lg:max-w-lg h-auto"
+            className="w-full max-w-[160px] sm:max-w-[200px] lg:max-w-[260px] h-auto"
           />
         </motion.div>
-
-        <motion.p
-          variants={itemVariants}
-          className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-xl leading-relaxed"
-        >
-          World-class padel courts, instant online booking, and a community that lives the sport.
-        </motion.p>
 
         <motion.div
           variants={itemVariants}
@@ -137,14 +129,23 @@ export default function Hero() {
             </svg>
           </Link>
           <Link
-            href="/location"
+            href="#"
+            aria-disabled
+            title="Coming soon"
             className="px-8 py-4 rounded-md border border-white/10 hover:border-white/25 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold text-base transition-all hover:-translate-y-0.5"
           >
-            Get directions
+            Become a member
           </Link>
         </motion.div>
 
-        {isBeforeOpening && (
+        <motion.p
+          variants={itemVariants}
+          className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-xl leading-relaxed"
+        >
+          World-class padel and pickleball courts
+        </motion.p>
+
+        {SHOW_COUNTDOWN && isBeforeOpening && (
           <motion.div variants={itemVariants} className="w-full flex justify-center">
             <Countdown target={OPENING_DATE} />
           </motion.div>
