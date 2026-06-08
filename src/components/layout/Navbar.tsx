@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
+import { flushSync } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PLAYTOMIC } from "@/lib/siteData";
 
-type NavChild = { label: string; href: string };
+type NavChild = { label: string; href: string; external?: boolean };
 type NavItem =
-  | { kind: "link"; label: string; href: string }
+  | { kind: "link"; label: string; href: string; external?: boolean }
   | { kind: "group"; label: string; children: NavChild[] };
 
-// TODO: confirm real URLs (likely Playtomic) for booking / classes / shop / memberships.
 const PLACEHOLDER = "#";
 
 const NAV_ITEMS: NavItem[] = [
@@ -19,8 +20,8 @@ const NAV_ITEMS: NavItem[] = [
     kind: "group",
     label: "Padel",
     children: [
-      { label: "Book a court",  href: PLACEHOLDER },
-      { label: "Book classes",  href: PLACEHOLDER },
+      { label: "Book a court",  href: PLAYTOMIC.reservations, external: true },
+      { label: "Book classes",  href: PLAYTOMIC.classes,      external: true },
       { label: "Shop",          href: PLACEHOLDER },
     ],
   },
@@ -28,12 +29,12 @@ const NAV_ITEMS: NavItem[] = [
     kind: "group",
     label: "Pickleball",
     children: [
-      { label: "Book a court",  href: PLACEHOLDER },
-      { label: "Book classes",  href: PLACEHOLDER },
+      { label: "Book a court",  href: PLAYTOMIC.reservations, external: true },
+      { label: "Book classes",  href: PLAYTOMIC.classes,      external: true },
       { label: "Shop",          href: PLACEHOLDER },
     ],
   },
-  { kind: "link", label: "Memberships", href: PLACEHOLDER },
+  { kind: "link", label: "Memberships", href: PLAYTOMIC.memberships, external: true },
   { kind: "link", label: "Location",    href: "/location" },
   { kind: "link", label: "Contact",     href: "/contact" },
 ];
@@ -58,6 +59,37 @@ function Caret({ className = "" }: { className?: string }) {
   );
 }
 
+function NavAnchor({
+  href,
+  external,
+  className,
+  children,
+}: {
+  href: string;
+  external?: boolean;
+  className: string;
+  children: ReactNode;
+}) {
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+  const isTodo = href === PLACEHOLDER;
+  return (
+    <Link
+      href={href}
+      aria-disabled={isTodo || undefined}
+      title={isTodo ? "Coming soon" : undefined}
+      className={className}
+    >
+      {children}
+    </Link>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -72,8 +104,10 @@ export default function Navbar() {
 
   // Close menu on route change
   useEffect(() => {
-    setMenuOpen(false);
-    setOpenGroup(null);
+    flushSync(() => {
+      setMenuOpen(false);
+      setOpenGroup(null);
+    });
   }, [pathname]);
 
   return (
@@ -102,13 +136,11 @@ export default function Navbar() {
           {NAV_ITEMS.map((item) => {
             if (item.kind === "link") {
               const active = isActive(pathname, item.href);
-              const isTodo = item.href === PLACEHOLDER;
               return (
                 <li key={item.label}>
-                  <Link
+                  <NavAnchor
                     href={item.href}
-                    aria-disabled={isTodo || undefined}
-                    title={isTodo ? "Coming soon" : undefined}
+                    external={item.external}
                     className={[
                       "px-4 py-2 rounded-md text-sm font-medium transition-colors",
                       active
@@ -117,7 +149,7 @@ export default function Navbar() {
                     ].join(" ")}
                   >
                     {item.label}
-                  </Link>
+                  </NavAnchor>
                 </li>
               );
             }
@@ -143,21 +175,17 @@ export default function Navbar() {
                   ].join(" ")}
                 >
                   <ul className="min-w-[12rem] rounded-md border border-[var(--border)] bg-[var(--bg-card)] shadow-lg py-1">
-                    {item.children.map((child) => {
-                      const isTodo = child.href === PLACEHOLDER;
-                      return (
-                        <li key={child.label}>
-                          <Link
-                            href={child.href}
-                            aria-disabled={isTodo || undefined}
-                            title={isTodo ? "Coming soon" : undefined}
-                            className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      );
-                    })}
+                    {item.children.map((child) => (
+                      <li key={child.label}>
+                        <NavAnchor
+                          href={child.href}
+                          external={child.external}
+                          className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
+                        >
+                          {child.label}
+                        </NavAnchor>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </li>
@@ -190,13 +218,11 @@ export default function Navbar() {
           {NAV_ITEMS.map((item) => {
             if (item.kind === "link") {
               const active = isActive(pathname, item.href);
-              const isTodo = item.href === PLACEHOLDER;
               return (
-                <Link
+                <NavAnchor
                   key={item.label}
                   href={item.href}
-                  aria-disabled={isTodo || undefined}
-                  title={isTodo ? "Coming soon" : undefined}
+                  external={item.external}
                   className={[
                     "px-4 py-3 rounded-md text-sm font-medium transition-colors",
                     active
@@ -205,7 +231,7 @@ export default function Navbar() {
                   ].join(" ")}
                 >
                   {item.label}
-                </Link>
+                </NavAnchor>
               );
             }
 
@@ -225,20 +251,16 @@ export default function Navbar() {
                 </button>
                 {open && (
                   <div className="pl-3 mt-1 flex flex-col gap-1 border-l border-[var(--border)] ml-4">
-                    {item.children.map((child) => {
-                      const isTodo = child.href === PLACEHOLDER;
-                      return (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          aria-disabled={isTodo || undefined}
-                          title={isTodo ? "Coming soon" : undefined}
-                          className="px-4 py-2 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      );
-                    })}
+                    {item.children.map((child) => (
+                      <NavAnchor
+                        key={child.label}
+                        href={child.href}
+                        external={child.external}
+                        className="px-4 py-2 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
+                      >
+                        {child.label}
+                      </NavAnchor>
+                    ))}
                   </div>
                 )}
               </div>

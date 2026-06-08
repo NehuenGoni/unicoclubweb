@@ -49,6 +49,13 @@ export const CONTACT = {
   email:        null as string | null, // TODO: client to confirm
 } as const;
 
+export const PLAYTOMIC = {
+  club:         process.env.NEXT_PUBLIC_PLAYTOMIC_CLUB         ?? "#",
+  reservations: process.env.NEXT_PUBLIC_PLAYTOMIC_RESERVATIONS ?? "#",
+  classes:      process.env.NEXT_PUBLIC_PLAYTOMIC_CLASSES      ?? "#",
+  memberships:  process.env.NEXT_PUBLIC_PLAYTOMIC_MEMBERSHIPS  ?? "#",
+} as const;
+
 export const SOCIALS = {
   instagram: {
     handle: "@unicoclubweston",

@@ -1,17 +1,9 @@
-// ─── PLAYTOMIC INTEGRATION ────────────────────────────────────
-// Currently configured as "external link" (default / base option).
-// To switch to the embedded widget, replace the <ExternalLink> block
-// with the Playtomic <iframe> embed snippet and set USE_WIDGET = true.
-// Requires a Playtomic plan that includes widget functionality.
-//
-// TODO: replace PLAYTOMIC_URL with the club's real Playtomic page URL.
-// ─────────────────────────────────────────────────────────────
 
 import Image from "next/image";
 import Link from "next/link";
-import { SOCIALS } from "@/lib/siteData";
+import { SOCIALS, PLAYTOMIC } from "@/lib/siteData";
 
-const PLAYTOMIC_URL = "#"; // TODO: replace with real Playtomic club URL
+const PLAYTOMIC_URL = PLAYTOMIC.reservations !== "#" ? PLAYTOMIC.reservations : PLAYTOMIC.club;
 const USE_WIDGET    = false; // flip to true once widget is contracted
 
 const HOW_IT_WORKS = [

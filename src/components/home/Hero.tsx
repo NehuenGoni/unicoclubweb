@@ -7,8 +7,8 @@ import { motion, type Variants } from "motion/react";
 import Countdown from "./Countdown";
 import HeroBlobs from "@/components/motion/HeroBlobs";
 import { useParallax } from "@/components/motion/useParallax";
+import { PLAYTOMIC } from "@/lib/siteData";
 
-// OPENING_DATE: June 1 2026 — update if client changes the date
 const OPENING_DATE = new Date("2026-06-01T00:00:00");
 
 // Flip to true once the client confirms the real opening date.
@@ -128,14 +128,14 @@ export default function Hero() {
               />
             </svg>
           </Link>
-          <Link
-            href="#"
-            aria-disabled
-            title="Coming soon"
+          <a
+            href={PLAYTOMIC.memberships}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-8 py-4 rounded-md border border-white/10 hover:border-white/25 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold text-base transition-all hover:-translate-y-0.5"
           >
             Become a member
-          </Link>
+          </a>
         </motion.div>
 
         <motion.p
