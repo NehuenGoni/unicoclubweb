@@ -7,10 +7,10 @@
 import { StaggerGroup, StaggerItem } from "@/components/motion/StaggerGroup";
 
 const STATS = [
-  { value: "4",    label: "Padel courts",            suffix: "" },
-  { value: "14",   label: "Hours of play per day",   suffix: "h" },
-  { value: "100%", label: "Courts with LED lighting", suffix: "" },
-  { value: "1",    label: "App to book instantly",   suffix: "" },
+  { value: "9",    label: "Padel courts",            suffix: "" },
+  { value: "6",    label: "Pickeball courts",        suffix: "" },
+  { value: "1",    label: "Gym",                     suffix: "" },
+  { value: "✓",    label: "Book with Playtomic",     suffix: "" },
 ];
 
 export default function Stats() {

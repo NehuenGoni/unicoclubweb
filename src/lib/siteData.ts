@@ -66,8 +66,6 @@ export const SOCIALS = {
     url:     "https://wa.me/17867671070",
   },
   whatsappReservations: {
-    display: "+1 (786) 874-3486",
-    url:     "https://wa.me/17868743486",
-    contactName: "Santi",
+    url:     "https://wa.me/17868743486?text=I'd%20like%20to%20book%20a%20court%20at%20UnicoClub",
   },
 } as const;

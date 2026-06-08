@@ -111,7 +111,7 @@ export default function Hero() {
         >
           <Link
             href="/book"
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-md bg-[#8a6d3b] hover:bg-[#9d7c44] text-white font-semibold text-base transition-all shadow-lg shadow-[#8a6d3b]/30 hover:shadow-[#8a6d3b]/50 hover:-translate-y-0.5"
+            className="group inline-flex items-center gap-2 px-8 py-4 rounded-md bg-[var(--accent)] hover:bg-[var(--accent-light)] text-white font-semibold text-base transition-all shadow-lg shadow-[var(--accent)]/30 hover:shadow-[var(--accent)]/50 hover:-translate-y-0.5"
           >
             Book a court
             <svg
