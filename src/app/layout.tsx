@@ -5,6 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Analytics from "@/components/Analytics";
 import SmoothScroll from "@/components/motion/SmoothScroll";
+import JsonLd from "@/components/JsonLd";
+import { localBusinessSchema } from "@/lib/schema";
 
 const lexendGiga = Lexend_Giga({
   variable: "--font-lexend-giga",
@@ -66,6 +68,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={lexendGiga.variable}>
       <body className="min-h-screen flex flex-col antialiased">
+        <JsonLd data={localBusinessSchema()} />
         <SmoothScroll />
         <Analytics />
         <Navbar />
