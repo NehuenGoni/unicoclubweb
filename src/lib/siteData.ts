@@ -18,28 +18,6 @@ export const ADDRESS = {
     "https://www.google.com/maps/search/?api=1&query=2955+West+Corporate+Lakes+Boulevard%2C+Weston%2C+FL+33331",
 } as const;
 
-// Building-level coordinates for 2955 West Corporate Lakes Blvd, Weston, FL 33331.
-// Geocoded via OpenStreetMap/Nominatim (exact building match).
-export const GEO = {
-  latitude: 26.0802831,
-  longitude: -80.3703406,
-} as const;
-
-// Localities served, for schema `areaServed` and local-SEO targeting.
-// Weston is the physical location; the rest are nearby Broward / metro cities.
-export const AREA_SERVED = [
-  "Weston",
-  "Davie",
-  "Cooper City",
-  "Southwest Ranches",
-  "Sunrise",
-  "Pembroke Pines",
-  "Fort Lauderdale",
-] as const;
-
-// Rough price tier for schema `priceRange` ($ – $$$$). TODO: confirm with client.
-export const PRICE_RANGE = "$$";
-
 export const HOURS_DISPLAY: { day: string; hours: string | null }[] = [
   { day: "Monday",    hours: "7:00 AM – 11:30 PM" },
   { day: "Tuesday",   hours: "7:00 AM – 11:30 PM" },
