@@ -51,6 +51,10 @@ html {
      genera "saltos dobles" con Lenis. Para usuarios con `prefers-reduced-motion`
      Lenis no se monta y el scroll nativo sigue siendo `auto`. */
   scroll-behavior: auto;
+  /* motion's useScroll (useParallax) treats document.scrollingElement as the
+     scroll container; `position: relative` lets it measure offsets correctly
+     and silences its dev-only "non-static position" warning. */
+  position: relative;
 }
 
 body {

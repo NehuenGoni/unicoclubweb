@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from "react";
-import { flushSync } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -104,10 +103,8 @@ export default function Navbar() {
 
   // Close menu on route change
   useEffect(() => {
-    flushSync(() => {
-      setMenuOpen(false);
-      setOpenGroup(null);
-    });
+    setMenuOpen(false);
+    setOpenGroup(null);
   }, [pathname]);
 
   return (

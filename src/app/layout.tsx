@@ -65,7 +65,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={lexendGiga.variable}>
-      <body className="min-h-screen flex flex-col antialiased">
+      <body className="min-h-screen flex flex-col antialiased" suppressHydrationWarning>
         <SmoothScroll />
         <Analytics />
         <Navbar />
