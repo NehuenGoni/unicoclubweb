@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-const SHOW_DELAY_MS = 4000;
+const SHOW_DELAY_MS = 2000;
 const SUBSCRIBED_KEY = "founding-members-subscribed";
 const DISMISSED_KEY = "founding-members-dismissed";
 const INTEREST_OPTIONS = ["Padel", "Pickleball", "Gym"] as const;
 
 export default function FoundingMembersPopup() {
+  const router = useRouter();
   const [visible, setVisible] = useState(false);
   const [state, setState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -71,6 +73,7 @@ export default function FoundingMembersPopup() {
       setState("success");
       setInterests([]);
       localStorage.setItem(SUBSCRIBED_KEY, "1");
+      router.push("/memberships");
     } catch {
       setState("error");
       setErrorMsg("Something went wrong. Please try again or reach out via WhatsApp.");
