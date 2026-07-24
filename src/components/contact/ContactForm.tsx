@@ -5,14 +5,30 @@ import { SOCIALS } from "@/lib/siteData";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
+const INTEREST_OPTIONS = ["Padel", "Pickleball", "Gym"] as const;
+
 export default function ContactForm() {
   const [state, setState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [interests, setInterests] = useState<string[]>([]);
+
+  function toggleInterest(value: string) {
+    setInterests((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+    );
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setState("loading");
     setErrorMsg("");
+
+    if (interests.length === 0) {
+      setState("error");
+      setErrorMsg("Please select at least one interest.");
+      return;
+    }
+
+    setState("loading");
 
     const form = e.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
@@ -21,11 +37,12 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, interests }),
       });
       if (!res.ok) throw new Error("Failed to send");
       setState("success");
       form.reset();
+      setInterests([]);
     } catch {
       setState("error");
       setErrorMsg("Something went wrong. Please try again or reach out via WhatsApp.");
@@ -99,6 +116,35 @@ export default function ContactForm() {
                     placeholder="you@email.com"
                     className="w-full px-4 py-3 rounded-lg bg-[var(--bg-base)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)] transition-colors text-sm"
                   />
+
+                  <div className="flex flex-col gap-2">
+                    <p className="text-[var(--text-muted)] text-xs">I&apos;m interested in</p>
+                    <div className="flex flex-wrap gap-2">
+                      {INTEREST_OPTIONS.map((option) => {
+                        const checked = interests.includes(option);
+                        return (
+                          <label
+                            key={option}
+                            className={[
+                              "inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm cursor-pointer transition-colors",
+                              checked
+                                ? "border-[var(--accent)] bg-[var(--accent)]/15 text-[var(--accent)]"
+                                : "border-[var(--border)] bg-[var(--bg-base)] text-[var(--text-secondary)] hover:border-white/20",
+                            ].join(" ")}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={() => toggleInterest(option)}
+                              className="sr-only"
+                            />
+                            {option}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+
                   <button
                     type="submit"
                     disabled={state === "loading"}

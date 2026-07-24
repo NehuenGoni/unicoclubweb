@@ -3,10 +3,11 @@ import Link from "next/link";
 import { ADDRESS, HOURS_SUMMARY, SOCIALS } from "@/lib/siteData";
 
 const NAV_LINKS = [
-  { label: "Home",     href: "/" },
-  { label: "Book",     href: "/book" },
-  { label: "Location", href: "/location" },
-  { label: "Contact",  href: "/contact" },
+  { label: "Home",        href: "/" },
+  { label: "Book",        href: "/book" },
+  { label: "Memberships", href: "/memberships" },
+  { label: "Location",    href: "/location" },
+  { label: "Contact",     href: "/contact" },
 ];
 
 export default function Footer() {

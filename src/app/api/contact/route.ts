@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 // ─── Google Sheets via Apps Script Web App ────────────────────
 // Setup steps (one-time, done by the developer):
 //  1. Open the Google Sheet that will store email subscribers
-//     (headers suggested: Timestamp | Email).
+//     (headers suggested: Timestamp | Email | Interests).
 //  2. Extensions → Apps Script → paste the script below → Save.
 //  3. Deploy → New deployment → Web app:
 //       - Execute as: Me
@@ -16,33 +16,40 @@ import { NextRequest, NextResponse } from "next/server";
 // function doPost(e) {
 //   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 //   var data  = JSON.parse(e.postData.contents);
-//   sheet.appendRow([new Date(), data.email]);
+//   sheet.appendRow([new Date(), data.email, (data.interests || []).join(", ")]);
 //   return ContentService.createTextOutput(JSON.stringify({ ok: true }))
 //     .setMimeType(ContentService.MimeType.JSON);
 // }
 // ─────────────────────────────────────────────────────────────
+// NOTE: if the webhook already exists, edit the SAME deployment
+// (Deploy → Manage deployments → edit → "New version") so the
+// .../exec URL stays the same and SHEETS_WEBHOOK_URL doesn't change.
 
 const SHEETS_WEBHOOK_URL = process.env.SHEETS_WEBHOOK_URL ?? "";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const { email, interests } = await req.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email is required." }, { status: 400 });
     }
 
+    if (!Array.isArray(interests) || interests.length === 0) {
+      return NextResponse.json({ error: "At least one interest is required." }, { status: 400 });
+    }
+
     if (!SHEETS_WEBHOOK_URL) {
       // During development without a webhook configured, log and return ok.
       console.warn("[contact] SHEETS_WEBHOOK_URL not set – submission logged only.");
-      console.log({ email });
+      console.log({ email, interests });
       return NextResponse.json({ ok: true });
     }
 
     const res = await fetch(SHEETS_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, interests }),
     });
 
     if (!res.ok) throw new Error(`Sheets webhook responded with ${res.status}`);

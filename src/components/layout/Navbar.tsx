@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PLAYTOMIC } from "@/lib/siteData";
 
-type NavChild = { label: string; href: string; external?: boolean };
+type NavChild = { label: string; href: string; external?: boolean; comingSoon?: boolean };
 type NavItem =
   | { kind: "link"; label: string; href: string; external?: boolean }
   | { kind: "group"; label: string; children: NavChild[] };
@@ -21,7 +21,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: "Book a court",  href: PLAYTOMIC.reservations, external: true },
       { label: "Book classes",  href: PLAYTOMIC.classes,      external: true },
-      { label: "Shop",          href: PLACEHOLDER },
+      { label: "Shop",          href: PLACEHOLDER, comingSoon: true },
     ],
   },
   {
@@ -30,10 +30,10 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: "Book a court",  href: PLAYTOMIC.reservations, external: true },
       { label: "Book classes",  href: PLAYTOMIC.classes,      external: true },
-      { label: "Shop",          href: PLACEHOLDER },
+      { label: "Shop",          href: PLACEHOLDER, comingSoon: true },
     ],
   },
-  { kind: "link", label: "Memberships", href: PLAYTOMIC.memberships, external: true },
+  { kind: "link", label: "Memberships", href: "/memberships" },
   { kind: "link", label: "Location",    href: "/location" },
   { kind: "link", label: "Contact",     href: "/contact" },
 ];
@@ -172,17 +172,31 @@ export default function Navbar() {
                   ].join(" ")}
                 >
                   <ul className="min-w-[12rem] rounded-md border border-[var(--border)] bg-[var(--bg-card)] shadow-lg py-1">
-                    {item.children.map((child) => (
-                      <li key={child.label}>
-                        <NavAnchor
-                          href={child.href}
-                          external={child.external}
-                          className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
-                        >
-                          {child.label}
-                        </NavAnchor>
-                      </li>
-                    ))}
+                    {item.children.map((child) =>
+                      child.comingSoon ? (
+                        <li key={child.label}>
+                          <span
+                            aria-disabled="true"
+                            className="flex items-center justify-between gap-2 px-4 py-2 text-sm text-[var(--text-muted)] cursor-default"
+                          >
+                            {child.label}
+                            <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full border border-[var(--border)] bg-white/5 text-[var(--text-muted)]">
+                              Coming soon
+                            </span>
+                          </span>
+                        </li>
+                      ) : (
+                        <li key={child.label}>
+                          <NavAnchor
+                            href={child.href}
+                            external={child.external}
+                            className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
+                          >
+                            {child.label}
+                          </NavAnchor>
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               </li>
@@ -248,16 +262,29 @@ export default function Navbar() {
                 </button>
                 {open && (
                   <div className="pl-3 mt-1 flex flex-col gap-1 border-l border-[var(--border)] ml-4">
-                    {item.children.map((child) => (
-                      <NavAnchor
-                        key={child.label}
-                        href={child.href}
-                        external={child.external}
-                        className="px-4 py-2 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
-                      >
-                        {child.label}
-                      </NavAnchor>
-                    ))}
+                    {item.children.map((child) =>
+                      child.comingSoon ? (
+                        <span
+                          key={child.label}
+                          aria-disabled="true"
+                          className="flex items-center justify-between gap-2 px-4 py-2 rounded-md text-sm text-[var(--text-muted)] cursor-default"
+                        >
+                          {child.label}
+                          <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full border border-[var(--border)] bg-white/5 text-[var(--text-muted)]">
+                            Coming soon
+                          </span>
+                        </span>
+                      ) : (
+                        <NavAnchor
+                          key={child.label}
+                          href={child.href}
+                          external={child.external}
+                          className="px-4 py-2 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
+                        >
+                          {child.label}
+                        </NavAnchor>
+                      )
+                    )}
                   </div>
                 )}
               </div>

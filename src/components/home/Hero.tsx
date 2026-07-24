@@ -7,7 +7,6 @@ import { motion, type Variants } from "motion/react";
 import Countdown from "./Countdown";
 import HeroBlobs from "@/components/motion/HeroBlobs";
 import { useParallax } from "@/components/motion/useParallax";
-import { PLAYTOMIC } from "@/lib/siteData";
 
 const OPENING_DATE = new Date("2026-06-01T00:00:00");
 
@@ -128,14 +127,12 @@ export default function Hero() {
               />
             </svg>
           </Link>
-          <a
-            href={PLAYTOMIC.memberships}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/memberships"
             className="px-8 py-4 rounded-md border border-white/10 hover:border-white/25 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold text-base transition-all hover:-translate-y-0.5"
           >
             Become a member
-          </a>
+          </Link>
         </motion.div>
 
         <motion.p
