@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Analytics from "@/components/Analytics";
 import SmoothScroll from "@/components/motion/SmoothScroll";
+import FoundingMembersPopup from "@/components/FoundingMembersPopup";
 
 const lexendGiga = Lexend_Giga({
   variable: "--font-lexend-giga",
@@ -71,6 +72,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FoundingMembersPopup />
       </body>
     </html>
   );
