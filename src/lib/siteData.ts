@@ -69,3 +69,5 @@ export const SOCIALS = {
     url:     "https://wa.me/17867671070?text=I'd%20like%20to%20book%20a%20court%20at%20UnicoClub",
   },
 } as const;
+
+export const INTEREST_OPTIONS = ["Padel", "Pickleball", "Gym", "Memberships"] as const;

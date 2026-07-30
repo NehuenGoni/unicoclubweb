@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PLAYTOMIC, SOCIALS } from "@/lib/siteData";
-
-const MEMBERSHIP_URL = PLAYTOMIC.memberships;
+import { SOCIALS } from "@/lib/siteData";
 
 const PLANS = [
   {
@@ -127,19 +125,23 @@ export default function MembershipsSection() {
                 ))}
               </ul>
 
-              <a
-                href={MEMBERSHIP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={[
-                  "mt-auto inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold text-sm transition-all hover:-translate-y-0.5",
-                  plan.highlight
-                    ? "bg-[var(--accent)] hover:bg-[var(--accent-light)] text-white shadow-lg shadow-[var(--accent)]/30"
-                    : "border border-[var(--border)] hover:border-white/20 bg-white/5 hover:bg-white/10 text-[var(--text-primary)]",
-                ].join(" ")}
-              >
-                Become a member
-              </a>
+              <div className="mt-auto relative group">
+                <button
+                  type="button"
+                  disabled
+                  className={[
+                    "w-full inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold text-sm cursor-not-allowed opacity-60",
+                    plan.highlight
+                      ? "bg-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/30"
+                      : "border border-[var(--border)] bg-white/5 text-[var(--text-primary)]",
+                  ].join(" ")}
+                >
+                  Become a member
+                </button>
+                <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-3 py-1.5 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
+                  Coming soon
+                </span>
+              </div>
             </div>
           ))}
         </div>

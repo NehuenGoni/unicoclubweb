@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { SOCIALS } from "@/lib/siteData";
+import { SOCIALS, INTEREST_OPTIONS } from "@/lib/siteData";
 
 type FormState = "idle" | "loading" | "success" | "error";
-
-const INTEREST_OPTIONS = ["Padel", "Pickleball", "Gym"] as const;
 
 export default function ContactForm() {
   const [state, setState] = useState<FormState>("idle");

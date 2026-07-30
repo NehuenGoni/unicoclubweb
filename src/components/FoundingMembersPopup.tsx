@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { INTEREST_OPTIONS } from "@/lib/siteData";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
 const SHOW_DELAY_MS = 2000;
 const SUBSCRIBED_KEY = "founding-members-subscribed";
 const DISMISSED_KEY = "founding-members-dismissed";
-const INTEREST_OPTIONS = ["Padel", "Pickleball", "Gym"] as const;
 
 export default function FoundingMembersPopup() {
   const router = useRouter();
